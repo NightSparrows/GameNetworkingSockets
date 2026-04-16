@@ -463,8 +463,9 @@ target("gns") -- we need limit path length
         end
     end
 
-    add_includedirs("include",
-                    "src",
+    add_includedirs("include", {public = true})
+
+    add_includedirs("src",
                     "src/common",
                     "src/tier0",
                     "src/tier1",
@@ -474,7 +475,6 @@ target("gns") -- we need limit path length
                     "src/public")
 
     add_headerfiles("include/(steam/*.h)")
-    add_headerfiles("include/(minbase/*.h)")
     add_headerfiles("src/public/(*/*.h)")
 
     add_defines("VALVE_CRYPTO_ENABLE_25519",
