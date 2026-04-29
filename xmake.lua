@@ -434,7 +434,7 @@ end
 target("gns") -- we need limit path length
     set_kind("$(kind)")
     add_rules("protobuf.cpp")
-    set_languages("gnu17")
+    set_languages("gnu17", "gnuxx17")
     add_vectorexts("sse2")
     add_packages("protobuf-cpp")
     set_basename("gamenetworkingsockets")
@@ -455,9 +455,9 @@ target("gns") -- we need limit path length
     end
 
     if is_kind("shared") then
-        add_defines("STEAMNETWORKINGSOCKETS_FOREXPORT")
+        add_defines("STEAMNETWORKINGSOCKETS_FOREXPORT", {public = true})
     else
-        add_defines("STEAMNETWORKINGSOCKETS_STATIC_LINK")
+        add_defines("STEAMNETWORKINGSOCKETS_STATIC_LINK", {public = true})
         if not is_plat("windows") then
             add_defines("OPENSSL_USE_STATIC_LIBS")
         end
@@ -465,7 +465,8 @@ target("gns") -- we need limit path length
 
     add_includedirs("include", {public = true})
 
-    add_includedirs("src",
+    add_includedirs("include",
+                    "src",
                     "src/common",
                     "src/tier0",
                     "src/tier1",
@@ -497,6 +498,8 @@ target("gns") -- we need limit path length
     else
         add_files("src/common/crypto_openssl.cpp",
                   "src/common/crypto_25519_openssl.cpp",
+                  "src/common/crypto_digest_opensslevp.cpp",
+                  "src/common/crypto_symmetric_opensslevp.cpp",
                   "src/common/opensslwrapper.cpp")
 
         add_defines("VALVE_CRYPTO_25519_OPENSSL",
